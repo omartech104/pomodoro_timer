@@ -25,6 +25,7 @@ console.print("Pomodoro Timer [bold cyan]started")
 progress = Progress()
 progress.start()
 
+# The progress bar of the WORK_MIN
 with Progress() as progress:
     task = progress.add_task(f"[green]Working for {WORK_MIN/60} min...", total=100)
 
@@ -42,3 +43,27 @@ with Progress() as progress:
             break
 
         time.sleep(0.5)
+
+clear_console()
+
+# The progress bar of the Short SHORT_BREAK_MIN
+with Progress() as progress:
+    task = progress.add_task(f"[green]Taking a short break for {SHORT_BREAK_MIN/60} min...", total=100)
+
+    start = time.time()
+    end = start + WORK_MIN
+
+    while not progress.finished:
+        now = time.time()
+        elapsed = now - start
+        percent = (elapsed / WORK_MIN) * 100
+
+        progress.update(task, completed=percent)
+
+        if now >= end:
+            break
+
+        time.sleep(0.5)
+
+clear_console()
+
